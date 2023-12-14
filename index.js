@@ -2,12 +2,17 @@ const express = require("express");
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 const app = express();
 const httpServer = createServer(app);
-const io = new Server(httpServer, { cors: { origin: "*" } });
+const envirnmentt = process.env.envirnment;
+const url = envirnmentt === "production" ? "https://paint-app-ruddy.vercel.app/" : "http://localhost:3000";
+const io = new Server(httpServer, { cors: { origin: url } });
 app.use(cors({
-    origin: '*',
+    origin: url,
 }));
 
 io.on("connection", (socket) => {
